@@ -26,31 +26,12 @@ class Config(BaseModel):
     @classmethod
     def from_path(cls, config_file_path: Path) -> Self:
         """Get a Config instance from a configuration file."""
-        with open(config_file_path) as f:
-            config_dict = yaml.safe_load(f.read())
-
-        config_dict["path"] = config_file_path
-        return cls(**config_dict)
+        pass
 
     def write(self) -> None:
         """Write the Config object in the configuration file."""
-        with open(cast(Path, self.path), "w") as f:
-            config_data = self.model_dump(exclude={"path"})
-            yaml.safe_dump(config_data, f)
+        pass
 
 
 def load_config(path: Path | None = None) -> Config:
-    if path is None:
-        path = _default_config_path()
-        if not path.exists():
-            # Create the config folder if doesn't exist
-            path.parent.mkdir(parents=True, exist_ok=True)
-            # Use default
-            config = Config(
-                current_profile=DEFAULT_PROFILE_NAME,
-                profiles={DEFAULT_PROFILE_NAME: ConfigProfile()},
-            )
-            config.write()
-            return config
-
-    return Config.from_path(path)
+    pass

@@ -23,26 +23,8 @@ class GitSourceManager(SourceManager):
                 `git_repo_url@branch_name`. For example, "https://example.com/llama_deploy.git@branch_name".
             destination: The path in the local filesystem where to clone the git repository.
         """
-        if not destination:
-            raise ValueError("Destination cannot be empty")
-
-        if Path(destination).exists():
-            # FIXME: pull when SyncPolicy is MERGE
-            shutil.rmtree(destination)
-
-        url, branch_name = self._parse_source(source)
-        kwargs: dict[str, Any] = {"url": url, "to_path": destination}
-        if branch_name:
-            kwargs["multi_options"] = [f"-b {branch_name}", "--single-branch"]
-
-        Repo.clone_from(**kwargs)
+        pass
 
     @staticmethod
     def _parse_source(source: str) -> tuple[str, str | None]:
-        branch_name = None
-        toks = source.split("@")
-        url = toks[0]
-        if len(toks) > 1:
-            branch_name = toks[1]
-
-        return url, branch_name
+        pass

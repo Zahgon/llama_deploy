@@ -35,9 +35,4 @@ app.include_router(status_router)
 
 @app.get("/")
 async def root(request: Request) -> JSONResponse:
-    return JSONResponse(
-        {
-            "swagger_docs": f"{request.base_url}docs",
-            "status": f"{request.base_url}status",
-        }
-    )
+    pass

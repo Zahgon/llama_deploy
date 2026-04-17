@@ -22,9 +22,4 @@ class _BaseClient(BaseSettings):
         self, method: str, url: str | httpx.URL, **kwargs: Any
     ) -> httpx.Response:
         """Performs an async HTTP request using httpx."""
-        verify = kwargs.pop("verify", True)
-        timeout = kwargs.pop("timeout", self.timeout)
-        async with httpx.AsyncClient(verify=verify) as client:
-            response = await client.request(method, url, timeout=timeout, **kwargs)
-            response.raise_for_status()
-            return response
+        pass

@@ -14,12 +14,7 @@ status_router = APIRouter(
 
 @status_router.get("/")
 async def status() -> Status:
-    return Status(
-        status=StatusEnum.HEALTHY,
-        max_deployments=manager._max_deployments,
-        deployments=list(manager._deployments.keys()),
-        status_message="",
-    )
+    pass
 
 
 @status_router.get("/metrics")
@@ -30,12 +25,4 @@ async def metrics() -> PlainTextResponse:
     container cannot expose more than one port (e.g. Knative, Google Cloud Run).
     If Prometheus is not enabled, this endpoint returns an empty HTTP-204 response.
     """
-    if not settings.prometheus_enabled:
-        return PlainTextResponse(status_code=204)
-
-    try:
-        async with httpx.AsyncClient() as client:
-            response = await client.get(f"http://127.0.0.1:{settings.prometheus_port}/")
-            return PlainTextResponse(content=response.text)
-    except httpx.RequestError as exc:
-        raise HTTPException(status_code=500, detail=str(exc))
+    pass

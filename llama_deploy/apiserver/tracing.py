@@ -97,141 +97,40 @@ def configure_tracing(settings: "ApiserverSettings") -> None:
 
 def get_tracer() -> Any | None:
     """Get the configured tracer instance."""
-    return _tracer if _tracing_enabled else None
+    pass
 
 
 def is_tracing_enabled() -> bool:
     """Check if tracing is enabled."""
-    return _tracing_enabled
+    pass
 
 
 def trace_method(
     span_name: str | None = None, attributes: dict | None = None
 ) -> Callable[[F], F]:
     """Decorator to add tracing to synchronous methods."""
-
-    def decorator(func: F) -> F:
-        if not _tracing_enabled:
-            return func
-
-        @wraps(func)
-        def wrapper(*args, **kwargs):  # type: ignore
-            tracer = get_tracer()
-            if not tracer:
-                return func(*args, **kwargs)
-
-            name = span_name or f"{func.__module__}.{func.__qualname__}"
-            with tracer.start_as_current_span(name) as span:
-                if attributes:
-                    span.set_attributes(attributes)
-
-                if hasattr(func, "__annotations__"):
-                    for i, (param_name, _) in enumerate(func.__annotations__.items()):
-                        if i < len(args) and param_name not in {"self", "cls"}:
-                            span.set_attribute(
-                                f"arg.{param_name}", str(args[i])[:100]
-                            )  # Truncate long values
-
-                try:
-                    result = func(*args, **kwargs)
-                    span.set_attribute("success", True)
-                    return result
-                except Exception as e:
-                    span.set_attribute("success", False)
-                    span.set_attribute("error.type", type(e).__name__)
-                    span.set_attribute("error.message", str(e))
-                    raise
-
-        return wrapper  # type: ignore
-
-    return decorator
+    pass
 
 
 def trace_async_method(
     span_name: str | None = None, attributes: dict | None = None
 ) -> Callable[[F], F]:
     """Decorator to add tracing to asynchronous methods."""
-
-    def decorator(func: F) -> F:
-        if not _tracing_enabled:
-            return func
-
-        @wraps(func)
-        async def wrapper(*args, **kwargs):  # type: ignore
-            tracer = get_tracer()
-            if not tracer:
-                return await func(*args, **kwargs)
-
-            name = span_name or f"{func.__module__}.{func.__qualname__}"
-            with tracer.start_as_current_span(name) as span:
-                if attributes:
-                    span.set_attributes(attributes)
-
-                if hasattr(func, "__annotations__"):
-                    for i, (param_name, _) in enumerate(func.__annotations__.items()):
-                        if i < len(args) and param_name not in {"self", "cls"}:
-                            span.set_attribute(
-                                f"arg.{param_name}", str(args[i])[:100]
-                            )  # Truncate long values
-
-                try:
-                    result = await func(*args, **kwargs)
-                    span.set_attribute("success", True)
-                    return result
-                except Exception as e:
-                    span.set_attribute("success", False)
-                    span.set_attribute("error.type", type(e).__name__)
-                    span.set_attribute("error.message", str(e))
-                    raise
-
-        return wrapper  # type: ignore
-
-    return decorator
+    pass
 
 
 @contextmanager
 def create_span(
     name: str, attributes: dict | None = None
 ) -> Generator[Any, None, None]:
-    tracer = get_tracer()
-    if tracer is None:
-        yield
-        return
-
-    with tracer.start_as_current_span(name) as span:
-        if attributes:
-            for k, v in attributes.items():
-                span.set_attribute(k, v)
-        yield span
+    pass
 
 
 def add_span_attribute(key: str, value: Any) -> None:
     """Add an attribute to the current span if tracing is enabled."""
-    if not _tracing_enabled:
-        return
-
-    try:
-        from opentelemetry import trace
-
-        current_span = trace.get_current_span()
-        if current_span:
-            current_span.set_attribute(key, str(value))
-    except Exception:
-        # Silently ignore tracing errors
-        pass
+    pass
 
 
 def add_span_event(name: str, attributes: dict | None = None) -> None:
     """Add an event to the current span if tracing is enabled."""
-    if not _tracing_enabled:
-        return
-
-    try:
-        from opentelemetry import trace
-
-        current_span = trace.get_current_span()
-        if current_span:
-            current_span.add_event(name, attributes or {})
-    except Exception:
-        # Silently ignore tracing errors
-        pass
+    pass

@@ -29,21 +29,15 @@ class Client(_BaseClient):
     @property
     def sync(self) -> "_SyncClient":
         """Returns the sync version of the client API."""
-        try:
-            asyncio.get_running_loop()
-        except RuntimeError:
-            return _SyncClient(**self.model_dump())
-
-        msg = "You cannot use the sync client within an async event loop - just await the async methods directly."
-        raise RuntimeError(msg)
+        pass
 
     @property
     def apiserver(self) -> ApiServer:
         """Access the API Server functionalities."""
-        return ApiServer(client=self, id="apiserver")
+        pass
 
 
 class _SyncClient(_BaseClient):
     @property
     def apiserver(self) -> Any:
-        return make_sync(ApiServer)(client=self, id="apiserver")
+        pass

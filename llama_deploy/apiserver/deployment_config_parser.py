@@ -40,14 +40,7 @@ class ServiceSource(BaseModel):
     @model_validator(mode="before")
     @classmethod
     def handle_deprecated_fields(cls, data: Any) -> Any:
-        if isinstance(data, dict):
-            if "name" in data and "location" not in data:  # pragma: no cover
-                warnings.warn(
-                    "The 'name' field is deprecated. Use 'location' instead.",
-                    DeprecationWarning,
-                )
-                data["location"] = data["name"]
-        return data
+        pass
 
 
 class Service(BaseModel):
@@ -66,25 +59,7 @@ class Service(BaseModel):
     @model_validator(mode="before")
     @classmethod
     def validate_fields(cls, data: Any) -> Any:
-        if isinstance(data, dict):
-            if "path" in data and "import-path" not in data:  # pragma: no cover
-                warnings.warn(
-                    "The 'path' field is deprecated. Use 'import-path' instead.",
-                    DeprecationWarning,
-                )
-                data["import-path"] = data["path"]
-
-            # Handle YAML aliases
-            if "import-path" in data:
-                data["import_path"] = data.pop("import-path")
-            if "env-files" in data:
-                data["env_files"] = data.pop("env-files")
-            if "python-dependencies" in data:
-                data["python_dependencies"] = data.pop("python-dependencies")
-            if "ts-dependencies" in data:
-                data["ts_dependencies"] = data.pop("ts-dependencies")
-
-        return data
+        pass
 
 
 class UIService(Service):
@@ -108,26 +83,14 @@ class DeploymentConfig(BaseModel):
     @classmethod
     def validate_fields(cls, data: Any) -> Any:
         # Handle YAML aliases
-        if isinstance(data, dict):
-            if "control-plane" in data:
-                data["control_plane"] = data.pop("control-plane")
-            if "message-queue" in data:
-                data["message_queue"] = data.pop("message-queue")
-            if "default-service" in data:
-                data["default_service"] = data.pop("default-service")
-
-        return data
+        pass
 
     @classmethod
     def from_yaml_bytes(cls, src: bytes) -> Self:
         """Read config data from bytes containing yaml code."""
-        config = yaml.safe_load(src) or {}
-        return cls(**config)
+        pass
 
     @classmethod
     def from_yaml(cls, path: Path) -> Self:
         """Read config data from a yaml file."""
-        with open(path, "r") as yaml_file:
-            config = yaml.safe_load(yaml_file) or {}
-
-        return cls(**config)
+        pass

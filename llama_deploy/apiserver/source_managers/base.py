@@ -30,4 +30,4 @@ class SourceManager(ABC):
         the git source manager just syncs the source into the <destination_path>. This is a temporary shim, since
         changing this behavior is a breaking change to deployment.yaml configurations. Local source manager
         overrides it. In a future major version, this behavior will be made consistent"""
-        return ""
+        pass

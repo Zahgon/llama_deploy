@@ -74,10 +74,7 @@ class ApiserverSettings(BaseSettings):
 
     @property
     def url(self) -> str:
-        protocol = "https://" if self.use_tls else "http://"
-        if self.port == 80:
-            return f"{protocol}{self.host}"
-        return f"{protocol}{self.host}:{self.port}"
+        pass
 
 
 settings = ApiserverSettings()

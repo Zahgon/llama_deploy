@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field
 
 
 def generate_id() -> str:
-    return str(uuid.uuid4())
+    pass
 
 
 class TaskDefinition(BaseModel):

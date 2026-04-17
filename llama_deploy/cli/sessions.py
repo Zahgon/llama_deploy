@@ -22,19 +22,7 @@ def create(
     config_profile: ConfigProfile,
     deployment: str,
 ) -> None:
-    client = Client(
-        api_server_url=config_profile.server,
-        disable_ssl=config_profile.insecure,
-        timeout=config_profile.timeout,
-    )
-
-    try:
-        d = client.sync.apiserver.deployments.get(deployment)
-        session_def = d.sessions.create()
-    except Exception as e:
-        raise click.ClickException(str(e))
-
-    click.echo(session_def)
+    pass
 
 
 sessions.add_command(create)
